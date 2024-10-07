@@ -47,7 +47,7 @@ function Level() {
   const navigate = useNavigate();
 
   return (
-    <div className="h-[583px] w-full bg-[#0c0c20] text-white">
+    <div className="h-screen w-screen bg-[#0c0c20] text-white">
       <MdOutlineClear
         className="text-white text-4xl font-medium ms-3 pt-3"
         onClick={() => navigate("/home", { state: {} })}
