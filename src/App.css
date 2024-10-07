@@ -1,0 +1,87 @@
+*{
+  margin: 0;
+  padding: 0;
+}
+.usman{
+  border-top: 2px solid rgb(165, 109, 6);
+  box-shadow: 1px 1px 35px 2px rgb(145, 95, 2);
+}
+.shadowdiv{
+  box-shadow: 4px 4px 100px 20px rgb(145, 95, 2);
+}
+.shadowdiv1{
+  box-shadow: 4px 4px 20px 5px rgb(145, 95, 2);
+}
+
+
+.gift-box {
+  cursor: pointer;
+  transition: transform 0.5s ease-in-out;
+}
+
+.gift-box.opened {
+  transform: scale(1.2);
+  opacity: 0;
+}
+
+.gift-reveal {
+  opacity: 0;
+  animation: fadeIn 1s forwards ease-in;
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+
+.coin-animation {
+  position: absolute;
+  top: -10px; /* Adjust to position above the button */
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.coin {
+  width: 50px;
+  height: 50px;
+  background-image: url(../src/images/coin.webp);
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  border-radius: 50%;
+  position: absolute;
+  animation: fly-out 1s ease-out forwards;
+}
+
+.coin:nth-child(1) {
+  animation-delay: 0s;
+}
+
+.coin:nth-child(2) {
+  animation-delay: 0.1s;
+}
+
+.coin:nth-child(3) {
+  animation-delay: 0.2s;
+}
+
+.coin:nth-child(4) {
+  animation-delay: 0.3s;
+}
+
+.coin:nth-child(5) {
+  animation-delay: 0.4s;
+}
+
+@keyframes fly-out {
+  0% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-100px) scale(2);
+  }
+}
