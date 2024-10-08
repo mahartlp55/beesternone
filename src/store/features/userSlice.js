@@ -43,12 +43,19 @@ export const loginUser = createAsyncThunk(
 
 export const signupUser = createAsyncThunk(
   "user/signupUser",
-  async ({ displayName, email, password }, { rejectWithValue }) => {
+  async (
+    { displayName, email, password, country, state, city, referral },
+    { rejectWithValue }
+  ) => {
     try {
       const response = await axios.post(`${apiURL}/api/v1/register`, {
         displayName,
         email,
         password,
+        country,
+        state,
+        city,
+        referral, // Pass referral ID
       });
       const { token, user } = response.data;
 
@@ -79,12 +86,28 @@ export const fetchUserData = createAsyncThunk(
       setAuthHeader();
 
       const response = await axios.get(`${apiURL}/api/v1/user/data`);
+      console.log(response.data.userData);
       return response.data.userData;
     } catch (error) {
       if (error.response && error.response.data) {
         return rejectWithValue(error.response.data.message);
       }
       return rejectWithValue("Failed to fetch user data");
+    }
+  }
+);
+
+export const fetchInviteLink = createAsyncThunk(
+  "user/fetchInviteLink",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await axios.get(`${apiURL}/api/v1/invite-link`);
+      return response.data.inviteLink;
+    } catch (error) {
+      if (error.response && error.response.data) {
+        return rejectWithValue(error.response.data.message);
+      }
+      return rejectWithValue("Failed to fetch invite link");
     }
   }
 );

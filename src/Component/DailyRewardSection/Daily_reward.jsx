@@ -69,7 +69,6 @@ function Daily_reward() {
 
     if (selectedCardId === "dr") {
       dispatch(claimDailyReward(coin));
-      // toast.success("Reward collected successfully");
 
       reCallData(coin);
     }
@@ -241,6 +240,7 @@ function Daily_reward() {
                         >
                           <p className="text-[12px]">{element.day}</p>
                           <CiBitcoin className="text-2xl bg-[#e9a830] rounded-full" />
+
                           <p className="text-[12px]">{element.coins}</p>
                         </div>
                         {clickedCoin === element.day && (

@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-import "./login.css";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom"; // Import useLocation
 import { loginUser, signupUser } from "./../../store/features/userSlice";
 import { toast } from "react-toastify";
+import "./login.css";
 
 const Auth = () => {
   const [isLogin, setIsLogin] = useState(true); // Toggle between login and signup
@@ -13,10 +13,22 @@ const Auth = () => {
   const [country, setCountry] = useState("");
   const [state, setState] = useState("");
   const [city, setCity] = useState("");
+  const [referralId, setReferralId] = useState(""); // Add referralId state
 
   const { data, loading } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation(); // Get the location object
+
+  // Get the referral ID from the URL if present
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const ref = searchParams.get("ref");
+    if (ref) {
+      setReferralId(ref);
+      setIsLogin(false); // Automatically open signup form if referral is present
+    }
+  }, [location.search]);
 
   // Handle login
   const handleLogin = () => {
@@ -42,6 +54,7 @@ const Auth = () => {
       country,
       state,
       city,
+      referral: referralId || null, // Include referral ID if present, else null
     };
 
     dispatch(signupUser(userData));
@@ -83,6 +96,14 @@ const Auth = () => {
               placeholder="City"
               value={city}
               onChange={(e) => setCity(e.target.value)}
+            />
+
+            {/* Optional Referral Code */}
+            <input
+              type="text"
+              placeholder="Referral ID (optional)"
+              value={referralId}
+              onChange={(e) => setReferralId(e.target.value)} // Allow user to modify
             />
           </>
         )}

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { FaSquareWebAwesome } from "react-icons/fa6";
 import { FaGift } from "react-icons/fa";
 import { FaCreativeCommonsSamplingPlus } from "react-icons/fa";
@@ -36,13 +36,43 @@ function Homepage() {
     }
   }, [navigate]);
 
+  const [timeLeft, setTimeLeft] = useState("");
+
+  // Function to calculate the time remaining until midnight
+  const calculateTimeLeft = () => {
+    const now = new Date();
+    const midnight = new Date();
+    midnight.setHours(24, 0, 0, 0); // Set to the next midnight (12:00 AM)
+
+    const diff = midnight.getTime() - now.getTime(); // Time difference in milliseconds
+
+    const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+    const minutes = Math.floor((diff / (1000 * 60)) % 60);
+    const seconds = Math.floor((diff / 1000) % 60);
+
+    return `${hours}h ${minutes}m ${seconds}s`;
+  };
+
+  useEffect(() => {
+    // Initial calculation
+    setTimeLeft(calculateTimeLeft());
+
+    // Update the countdown every second
+    const interval = setInterval(() => {
+      setTimeLeft(calculateTimeLeft());
+    }, 1000);
+
+    // Clear interval on component unmount
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <>
       <div className="h-screen  w-screen bg-[#0c0c20]">
         <div className="h-screen w-full rounded-t-3xl usman">
           <div className="flex justify-evenly p-3">
             <div
-              className="h-[17vh] w-[23%] bg-[#171725] rounded-xl"
+              className="h-[17vh] w-[23%]  bg-[#171725] rounded-xl"
               onClick={() => navigate("/reward", { state: {} })}
             >
               <FaSquareWebAwesome className="text-5xl m-auto py-3 text-gray-400" />
@@ -50,7 +80,7 @@ function Homepage() {
                 Daily reward
               </p>
               <p className="text-gray-500 text-center text-[14px] py-2">
-                16:23
+                <p className="text-xs">{timeLeft}</p>
               </p>
             </div>
             <div
@@ -62,7 +92,7 @@ function Homepage() {
                 Daily Gift
               </p>
               <p className="text-gray-500 text-center text-[14px] py-2">
-                11:18
+                <p className="text-xs">{timeLeft}</p>
               </p>
             </div>
             <div
@@ -74,7 +104,7 @@ function Homepage() {
                 Daily combo
               </p>
               <p className="text-gray-500 text-center text-[14px] py-2">
-                04:14
+                <p className="text-xs">{timeLeft}</p>
               </p>
             </div>
             <div
