@@ -8,6 +8,7 @@ import { FaXTwitter } from "react-icons/fa6";
 
 import { AiTwotoneDollar } from "react-icons/ai";
 import Hamster1 from "../../images/Hamster1.png";
+import { useSelector } from "react-redux";
 const createdailyrewardcontext = createContext();
 export const useDailyRewardHook = () => {
   const usedailyrewardcontext = useContext(createdailyrewardcontext);
@@ -15,6 +16,8 @@ export const useDailyRewardHook = () => {
 };
 
 function DailyRewardContextProvider(props) {
+  const { cards } = useSelector((state) => state.game);
+  console.log(cards);
   let dailyrewardarray = [
     {
       title: "Hamster Youtube",
@@ -138,98 +141,99 @@ function DailyRewardContextProvider(props) {
       ],
     },
   ];
-  const additionalArray = [
-    {
-      id: 1,
-      title: "CEO",
-      price: 90,
-      image: Hamster1,
-      level: 4,
-      deductAmount: "4.5",
-      subCategory: "pr&team",
-    },
-    {
-      id: 2,
-      title: "Employee",
-      price: 50,
-      image: Hamster1,
-      level: 3,
-      deductAmount: "3",
-      subCategory: "markets",
-    },
-    {
-      id: 3,
-      title: "Intern",
-      price: 20,
-      image: Hamster1,
-      level: 2,
-      deductAmount: "1.5",
-      subCategory: "legal",
-    },
-    {
-      id: 4,
-      title: "Manager",
-      price: 75,
-      image: Hamster1,
-      level: 3,
-      deductAmount: "2.5",
-      subCategory: "pr&team",
-    },
-    {
-      id: 5,
-      title: "Director",
-      price: 90,
-      image: Hamster1,
-      level: 4,
-      deductAmount: "4",
-      subCategory: "markets",
-    },
-    {
-      id: 6,
-      title: "Senior Developer",
-      price: 85,
-      image: Hamster1,
-      level: 3,
-      deductAmount: "3",
-      subCategory: "legal",
-    },
-    {
-      id: 7,
-      title: "Junior Developer",
-      price: 60,
-      image: Hamster1,
-      level: 2,
-      deductAmount: "2",
-      subCategory: "markets",
-    },
-    {
-      id: 8,
-      title: "HR Specialist",
-      price: 55,
-      image: Hamster1,
-      level: 2,
-      deductAmount: "1.8",
-      subCategory: "pr&team",
-    },
-    {
-      id: 9,
-      title: "Sales Representative",
-      price: 65,
-      image: Hamster1,
-      level: 3,
-      deductAmount: "2.2",
-      subCategory: "Specials",
-    },
-    {
-      id: 10,
-      title: "Marketing Coordinator",
-      price: 70,
-      image: Hamster1,
-      level: 3,
-      deductAmount: "2.8",
-      subCategory: "web3",
-    },
-  ];
+  const additionalArray = cards;
+  // const additionalArray = [
+  //   {
+  //     id: 1,
+  //     title: "CEO",
+  //     price: 90,
+  //     image: Hamster1,
+  //     level: 4,
+  //     deductAmount: "4.5",
+  //     subCategory: "pr&team",
+  //   },
+  //   {
+  //     id: 2,
+  //     title: "Employee",
+  //     price: 50,
+  //     image: Hamster1,
+  //     level: 3,
+  //     deductAmount: "3",
+  //     subCategory: "markets",
+  //   },
+  //   {
+  //     id: 3,
+  //     title: "Intern",
+  //     price: 20,
+  //     image: Hamster1,
+  //     level: 2,
+  //     deductAmount: "1.5",
+  //     subCategory: "legal",
+  //   },
+  //   {
+  //     id: 4,
+  //     title: "Manager",
+  //     price: 75,
+  //     image: Hamster1,
+  //     level: 3,
+  //     deductAmount: "2.5",
+  //     subCategory: "pr&team",
+  //   },
+  //   {
+  //     id: 5,
+  //     title: "Director",
+  //     price: 90,
+  //     image: Hamster1,
+  //     level: 4,
+  //     deductAmount: "4",
+  //     subCategory: "markets",
+  //   },
+  //   {
+  //     id: 6,
+  //     title: "Senior Developer",
+  //     price: 85,
+  //     image: Hamster1,
+  //     level: 3,
+  //     deductAmount: "3",
+  //     subCategory: "legal",
+  //   },
+  //   {
+  //     id: 7,
+  //     title: "Junior Developer",
+  //     price: 60,
+  //     image: Hamster1,
+  //     level: 2,
+  //     deductAmount: "2",
+  //     subCategory: "markets",
+  //   },
+  //   {
+  //     id: 8,
+  //     title: "HR Specialist",
+  //     price: 55,
+  //     image: Hamster1,
+  //     level: 2,
+  //     deductAmount: "1.8",
+  //     subCategory: "pr&team",
+  //   },
+  //   {
+  //     id: 9,
+  //     title: "Sales Representative",
+  //     price: 65,
+  //     image: Hamster1,
+  //     level: 3,
+  //     deductAmount: "2.2",
+  //     subCategory: "Specials",
+  //   },
+  //   {
+  //     id: 10,
+  //     title: "Marketing Coordinator",
+  //     price: 70,
+  //     image: Hamster1,
+  //     level: 3,
+  //     deductAmount: "2.8",
+  //     subCategory: "web3",
+  //   },
+  // ];
   // All states are here
   const [dailyrewardarraystate, setDailyRewardArrayState] =
     useState(dailyrewardarray);
@@ -272,7 +276,7 @@ function DailyRewardContextProvider(props) {
   };
 
   const handleRedeem = (id) => {
-    const findRedeem = redeemReward.find((item) => item.id === id).deductAmount;
+    const findRedeem = cards.find((item) => item.id === id).deductAmount;
     const deductSpecificAmount = findRedeem * 1000;
 
     if (reward <= deductSpecificAmount) {

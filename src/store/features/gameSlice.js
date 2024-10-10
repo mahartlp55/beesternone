@@ -178,6 +178,25 @@ export const sendDollars = createAsyncThunk(
     }
   }
 );
+export const getCards = createAsyncThunk(
+  "get/card",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await axios.get(
+        `${apiURL}/api/v1/cards`,
+
+        { withCredentials: true }
+      );
+
+      return response.data;
+    } catch (error) {
+      toast.error(error.response.data.message);
+      return rejectWithValue(
+        error.response?.data?.message || "Failed to fetch card IDs"
+      );
+    }
+  }
+);
 
 const initialState = {
   loading: false,
@@ -191,6 +210,7 @@ const initialState = {
   cardIds: [],
   selectedCards: [],
   dollars: 0,
+  cards: [],
 };
 
 // Create the game slice
@@ -274,7 +294,6 @@ const gameSlice = createSlice({
       state.error = action.payload;
     });
 
-    // Get Card IDs
     builder.addCase(getCardIds.pending, (state) => {
       state.loading = true;
       state.error = null;
@@ -312,6 +331,19 @@ const gameSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       });
+
+    builder.addCase(getCards.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    });
+    builder.addCase(getCards.fulfilled, (state, action) => {
+      state.loading = false;
+      state.cards = action.payload;
+    });
+    builder.addCase(getCards.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    });
   },
 });
 

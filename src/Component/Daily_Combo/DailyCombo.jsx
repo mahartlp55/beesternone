@@ -11,6 +11,7 @@ import {
   checkSingleCard,
   fetchTotalTokens,
   getCardIds,
+  getCards,
   getSelectedCard,
 } from "../../store/features/gameSlice";
 import { RecallContext } from "../DailyRewardSection/RecallContext";
@@ -22,9 +23,8 @@ function DailyCombo() {
   const { reCall, reCallData } = useContext(RecallContext);
   const navigate = useNavigate();
 
-  const { totalTokens, error, selectedCards, cardIds, pph } = useSelector(
-    (state) => state.game
-  );
+  const { totalTokens, error, selectedCards, cardIds, pph, cards } =
+    useSelector((state) => state.game);
   // console.log(selectedCards);
   const [showCard, setShowCard] = useState(false);
   const [flippedIds, setFlippedIds] = useState([]); // Changed to an array
@@ -35,8 +35,9 @@ function DailyCombo() {
   // const filteredArray = additionalArray.filter((item) =>
   //   idsArray.includes(item.id)
   // );
+
   const openModal = (id) => {
-    const findSpecific = redeemReward.find((item) => item.id === id);
+    const findSpecific = cards.find((item) => item.id === id);
     const deductSpecificAmount = findSpecific.deductAmount * 1000;
     setDeductAmount(deductSpecificAmount);
     setSingleCard(findSpecific);
@@ -48,6 +49,7 @@ function DailyCombo() {
     dispatch(getSelectedCard());
     dispatch(fetchTotalTokens());
     dispatch(getCardIds());
+    dispatch(getCards());
     reCallData(10);
   }, [reCall, dispatch, reCallData]);
   const { data } = useSelector((state) => state.user);
@@ -83,7 +85,7 @@ function DailyCombo() {
   };
 
   const uniqueSubcategories = [
-    ...new Set(redeemReward.map((item) => item.subCategory)),
+    ...new Set(cards.map((item) => item.subCategory)),
   ];
 
   useEffect(() => {
@@ -92,7 +94,7 @@ function DailyCombo() {
     }
   }, []);
 
-  const filteredRewards = redeemReward.filter(
+  const filteredRewards = cards.filter(
     (item) => item.subCategory === selectedCategory
   );
 
@@ -126,30 +128,21 @@ function DailyCombo() {
         <div className="flex gap-1.5 justify-center items-center w-[95%] mx-auto ">
           <section className="flex justify-center items-center bg-[#26263a] h-[120px] w-[33%] text-white border-yellow-600 shadowdiv1 rounded-lg border-[2px] border-b-0">
             {selectedCards.length > 0 && cardIds.includes(selectedCards[0]) ? (
-              <ComboCard
-                additionalArray={additionalArray}
-                id={selectedCards[0]}
-              />
+              <ComboCard additionalArray={cards} id={selectedCards[0]} />
             ) : (
               <ComboCard />
             )}
           </section>
           <section className="flex justify-center items-center bg-[#26263a] h-[120px] w-[33%] text-white border-yellow-600 shadowdiv1 rounded-lg border-[2px] border-b-0">
             {selectedCards.length > 0 && cardIds.includes(selectedCards[1]) ? (
-              <ComboCard
-                additionalArray={additionalArray}
-                id={selectedCards[1]}
-              />
+              <ComboCard additionalArray={cards} id={selectedCards[1]} />
             ) : (
               <ComboCard />
             )}
           </section>
           <section className="flex justify-center items-center bg-[#26263a] h-[120px] w-[33%] text-white border-yellow-600 shadowdiv1 rounded-lg border-[2px] border-b-0">
             {selectedCards.length > 0 && cardIds.includes(selectedCards[2]) ? (
-              <ComboCard
-                additionalArray={additionalArray}
-                id={selectedCards[2]}
-              />
+              <ComboCard additionalArray={cards} id={selectedCards[2]} />
             ) : (
               <ComboCard />
             )}
@@ -173,55 +166,60 @@ function DailyCombo() {
           ))}
         </div>
         <div className="grid grid-cols-2 gap-2 w-[95%] mx-auto">
-          {filteredRewards.map((item) => {
-            const {
-              id,
-              title,
-              image,
-              price,
-              level,
-              deductAmount,
-              subCategory,
-            } = item;
-            if (subCategory === "web3") {
-              navigate("/soon");
-            } else {
-              return (
-                <div
-                  className="rounded-3xl flex flex-col bg-[#26263a] w-[100%]"
-                  key={id}
-                  onClick={() => openModal(id)}
-                >
-                  <div className="flex w-[80%] py-2">
-                    <img src={image} className="w-[60px] h-[60px]" alt="" />
-                    <div className="flex flex-col text-white">
-                      <p className="text-[14px]">{title}</p>
-                      <div className="flex flex-col">
-                        <p className="text-[12px] text-gray-500">
-                          Profit per hour
-                        </p>
-                        <div className="flex items-center gap-1">
-                          <CiBitcoin className="text-[16px] bg-[#e9a830] rounded-full" />
-                          <p className="text-[12px] font-medium">{price}</p>
+          {cards
+            .filter((item) => item.subCategory === selectedCategory) // Filter cards based on selected category
+            .map((item) => {
+              const {
+                id,
+                title,
+                image,
+                price,
+                level,
+                deductAmount,
+                subCategory,
+              } = item;
+
+              // Check if subCategory is "web3" and navigate to "/soon"
+              if (subCategory === "web3") {
+                navigate("/soon");
+                return null; // Don't render anything if navigating
+              } else {
+                return (
+                  <div
+                    className="rounded-3xl flex flex-col bg-[#26263a] w-[100%]"
+                    key={id}
+                    onClick={() => openModal(id)}
+                  >
+                    <div className="flex w-[80%] py-2">
+                      <img src={image} className="w-[60px] h-[60px]" alt="" />
+                      <div className="flex flex-col text-white">
+                        <p className="text-[14px]">{title}</p>
+                        <div className="flex flex-col">
+                          <p className="text-[12px] text-gray-500">
+                            Profit per hour
+                          </p>
+                          <div className="flex items-center gap-1">
+                            <CiBitcoin className="text-[16px] bg-[#e9a830] rounded-full" />
+                            <p className="text-[12px] font-medium">{price}</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="w-[100%] border-t-[1px] border-t-slate-600">
+                      <div className="w-[80%] text-white flex gap-2 items-center justify-start py-2 px-4">
+                        <p className="text-[12px] font-medium">lvl {level}</p>
+                        <div className="flex gap-1 border-l-[1px] border-l-slate-600 pl-2">
+                          <CiBitcoin className="text-[22px] bg-[#e9a830] rounded-full" />
+                          <p className="text-[12px] font-medium">
+                            {deductAmount}k
+                          </p>
                         </div>
                       </div>
                     </div>
                   </div>
-                  <div className="w-[100%] border-t-[1px] border-t-slate-600">
-                    <div className="w-[80%] text-white flex gap-2 items-center justify-start py-2 px-4">
-                      <p className="text-[12px] font-medium ">lvl {level}</p>
-                      <div className="flex gap-1 border-l-[1px] border-l-slate-600 pl-2">
-                        <CiBitcoin className="text-[22px] bg-[#e9a830] rounded-full" />
-                        <p className="text-[12px] font-medium">
-                          {deductAmount}k
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              );
-            }
-          })}
+                );
+              }
+            })}
 
           {showCard && (
             <div className="fixed bottom-0 left-0 w-full h-[60%] text-[#fff] bg-[#0c0c1d] border-t-2 rounded-t-3xl border-t-[#e9a830]">
