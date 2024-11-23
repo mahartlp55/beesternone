@@ -74,6 +74,11 @@
 .coin:nth-child(5) {
   animation-delay: 0.4s;
 }
+.Profitperhour{
+  color:#C78805;
+ 
+  
+}
 
 @keyframes fly-out {
   0% {

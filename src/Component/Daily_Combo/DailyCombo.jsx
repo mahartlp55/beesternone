@@ -3,7 +3,7 @@ import { FaRegCircle } from "react-icons/fa";
 import { CiBitcoin } from "react-icons/ci";
 import { useDailyRewardHook } from "../context/DailyRewardContextProvider";
 import { ImCross } from "react-icons/im";
-import Hamster1 from "../../images/Hamster1.png";
+import Hamster1 from "../../images/12.jpeg";
 import { useNavigate } from "react-router-dom";
 import { IoIosArrowBack } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
@@ -77,7 +77,6 @@ function DailyCombo() {
     }
 
     reCallData(8);
-
     setShowCard(false);
     if (singleCard.id !== undefined) {
       handleRedeem(singleCard.id);
@@ -106,9 +105,9 @@ function DailyCombo() {
           className="text-white text-2xl my-2"
           onClick={() => navigate("/home", { state: {} })}
         />
-        <div className="flex items-center gap-1 bg-fuchsia-800 p-1.5 rounded-lg mr-2">
-          <CiBitcoin className="text-[20px] text-[#fff] bg-[#e9a830]  rounded-full" />
-          <p className="text-[#fff] font-semibold text-[14px]">+{pph}</p>
+        <div className="flex items-center gap-1 bg-fuchsia-800 p-1.5 rounded-lg mr-2 "><span className="Profitperhour">Profit per hour</span>
+          {/* <CiBitcoin className="text-[20px] text-[#fff] bg-[#e9a830]  rounded-full" /> */}
+          <p className="text-[#fff] font-semibold text-[14px]">{pph}</p>
         </div>
       </div>
       <div className="flex flex-col w-full gap-6 ">

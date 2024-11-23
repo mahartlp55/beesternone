@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState } from "react";
 import { FaYoutube } from "react-icons/fa";
+// import { FaYoutube } from "react-icons/fa";
 import { FaCalendar } from "react-icons/fa";
 import { FaFacebookF } from "react-icons/fa";
 import { FaSquareInstagram } from "react-icons/fa6";
@@ -20,17 +21,33 @@ function DailyRewardContextProvider(props) {
   console.log(cards);
   let dailyrewardarray = [
     {
-      title: "Hamster Youtube",
+      title: "Beester Youtube",
       detail: [
         {
           id: "yt1",
           outer_icone: (
             <FaYoutube className=" text-white bg-red-700 rounded-full p-2" />
           ),
-          outer_text: "How to verify your identity on OKX",
+          outer_text: "Get information by watching the video",
           inner_text:
-            "What is KYC?How to verify your identity(KYC) on OKX.Hamster Academy",
+            "If you are new to this YouTube channel, don't forget to  Subscribe to the channel",
           coins: 100000,
+          button: "Watch video",
+        },
+      ],
+    },
+    {
+     
+      detail: [
+        {
+          id: "yt1",
+          outer_icone: (
+            <FaYoutube className=" text-white bg-red-700 rounded-full p-2" />
+          ),
+          outer_text: "Get information by watching the video",
+          inner_text:
+            "If you are new to this YouTube channel, don't forget to  Subscribe to the channel",
+          coins: 300000,
           button: "Watch video",
         },
       ],
