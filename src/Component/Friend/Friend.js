@@ -75,7 +75,7 @@ function Friend() {
           </button>
           <MdContentCopy
             className="text-white text-lg bg-[#171725f6] border rounded-lg w-[80px] mt-[180px] p-3 h-[60px]"
-            onClick={handleCopyLink}
+            onClick={handleCopyLink} 
           />
         </div>
         <div className="text-3xl w-full text-center  text-white my-28 mt-4 ">
